@@ -3,6 +3,7 @@ package com.naver.hackday.android.speechrecognizecalender.src;
 import android.annotation.SuppressLint;
 import android.app.Application;
 import android.content.Context;
+import android.util.DisplayMetrics;
 
 import static com.naver.hackday.android.speechrecognizecalender.src.common.util.AppConstants.TAG;
 import static com.naver.hackday.android.speechrecognizecalender.src.common.util.AppConstants.sSharedPreferences;
