@@ -1,13 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
         <variable
             name="EventViewModel"
             type="com.naver.hackday.android.speechrecognizecalender.src.ui.event.viewModels.EventViewModel" />
+
+        <variable
+            name="ClovaViewModel"
+            type="com.naver.hackday.android.speechrecognizecalender.src.network.clova.ClovaViewModel" />
+
     </data>
 
     <LinearLayout
@@ -24,6 +29,27 @@
             android:padding="10dp"
             android:text="일정추가 (Dummy)" />
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:enabled="@{ClovaViewModel.mBtnEnable}"
+                android:onClick="@{() -> ClovaViewModel.clovaClicked()}"
+                android:padding="10dp"
+                android:text="@{ClovaViewModel.mRecognizerStatus}" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{ClovaViewModel.mRecognizedResult}" />
+
+        </LinearLayout>
+
+
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/activity_monthly_calender_tab_layout"
             android:layout_width="match_parent"
@@ -34,7 +60,7 @@
             android:id="@+id/activity_monthly_calender_vp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal"/>
+            android:orientation="horizontal" />
     </LinearLayout>
 
 </layout>

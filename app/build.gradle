@@ -27,7 +27,10 @@ android {
     dataBinding {
         enabled true
     }
+}
 
+repositories {
+    jcenter()
 }
 
 dependencies {
@@ -58,5 +61,8 @@ dependencies {
     //viewPager2
     implementation "androidx.viewpager2:viewpager2:1.0.0"
     implementation 'com.google.android.material:material:1.1.0'
+
+    //Naver Clova API
+    implementation 'com.naver.speech.clientapi:naverspeech-ncp-sdk-android:1.1.7'
 
 }

@@ -3,4 +3,8 @@
     <string name="network_error">네트워크 연결이 원활하지 않습니다.</string>
     <string name="loading">로딩중입니다…</string>
     <string name="confirm">확인</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="str_start">인식 시작</string>
+    <string name="str_stop">인식 중단</string>
 </resources>
