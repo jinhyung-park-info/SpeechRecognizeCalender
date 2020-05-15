@@ -32,14 +32,6 @@ public abstract class TempEventDao {
     @Query("SELECT strftime('%Y년 %m월', startTime / 1000, 'unixepoch')  as month , COUNT(*) as count FROM Event GROUP BY month;")
     public abstract LiveData<List<MonthCount>> getMonth();
 
-
-//    @Transaction
-//    public void insertEvent(Event Event) {
-//        int EventNo = (int) insert(Event);
-//        EventData.setEventNo(EventNo);
-//        insertLocation(EventData);
-//    }
-
     @Insert
     public abstract void insert(List<Event> Event);
 
