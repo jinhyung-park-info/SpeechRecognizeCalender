@@ -35,7 +35,7 @@ public class EventRepository {
         mExecutorService.execute(new EventRunnable.InsertRunnable(mEventDao, event));
     }
 
-    public void insertAll(List<Event> events){
+    public void insertAll(List<Event> events) {
         mExecutorService.execute(new EventRunnable.InsertAllRunnable(mEventDao, events));
     }
 
@@ -50,9 +50,6 @@ public class EventRepository {
     public void deleteAll() {
         mExecutorService.execute(new EventRunnable.DeleteAllRunnable(mEventDao));
     }
-
-
-
 
 
 }

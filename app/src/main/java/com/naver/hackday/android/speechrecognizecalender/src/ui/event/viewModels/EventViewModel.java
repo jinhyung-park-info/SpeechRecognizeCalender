@@ -40,7 +40,8 @@ public class EventViewModel extends ViewModel {
             }
 
             @Override
-            public void testSuccess(Event event) { }
+            public void testSuccess(Event event) {
+            }
 
 
             @Override

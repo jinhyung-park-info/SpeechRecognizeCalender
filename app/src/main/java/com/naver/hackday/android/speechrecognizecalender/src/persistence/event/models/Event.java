@@ -1,6 +1,7 @@
 package com.naver.hackday.android.speechrecognizecalender.src.persistence.event.models;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.room.Embedded;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
@@ -16,21 +17,25 @@ public class Event {
     @PrimaryKey(autoGenerate = true)
     private int index;
 
+    @NonNull
     @SerializedName("id")
     private String eventId;
 
     @SerializedName("kind")
     private String kind;
 
+    @Nullable
     @SerializedName("status")
     private String status;
 
     @SerializedName("summary")
     private String summary;
 
+    @Nullable
     @SerializedName("description")
     private String description;
 
+    @Nullable
     @SerializedName("location")
     private String location;
 
@@ -48,7 +53,7 @@ public class Event {
     @Embedded(prefix = "end_")
     private EventDate end;
 
-    public Event(String eventId, String kind, String status, String summary, String description, String location, Date created, Date updated, EventDate start, EventDate end) {
+    public Event(@NonNull String eventId, String kind, @Nullable String status, String summary, @Nullable String description, @Nullable String location, Date created, Date updated, EventDate start, EventDate end) {
         this.eventId = eventId;
         this.kind = kind;
         this.status = status;
@@ -86,11 +91,12 @@ public class Event {
         this.kind = kind;
     }
 
+    @Nullable
     public String getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(@Nullable String status) {
         this.status = status;
     }
 
@@ -102,28 +108,22 @@ public class Event {
         this.summary = summary;
     }
 
+    @Nullable
     public String getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
+    public void setDescription(@Nullable String description) {
         this.description = description;
     }
 
+    @Nullable
     public String getLocation() {
         return location;
     }
 
-    public void setLocation(String location) {
+    public void setLocation(@Nullable String location) {
         this.location = location;
-    }
-
-    public EventDate getStart() {
-        return start;
-    }
-
-    public void setStart(EventDate start) {
-        this.start = start;
     }
 
     public Date getCreated() {
@@ -142,6 +142,14 @@ public class Event {
         this.updated = updated;
     }
 
+    public EventDate getStart() {
+        return start;
+    }
+
+    public void setStart(EventDate start) {
+        this.start = start;
+    }
+
     public EventDate getEnd() {
         return end;
     }
@@ -152,7 +160,7 @@ public class Event {
 
     @Override
     public String toString() {
-        final StringBuffer sb = new StringBuffer("Event{");
+        final StringBuilder sb = new StringBuilder("Event{");
         sb.append("index=").append(index);
         sb.append(", eventId='").append(eventId).append('\'');
         sb.append(", kind='").append(kind).append('\'');

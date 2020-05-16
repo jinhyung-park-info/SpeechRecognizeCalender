@@ -18,25 +18,25 @@ import retrofit2.http.Path;
 
 public interface EventRetrofitInterface {
     @GET("events")
-    Call<EventListResponse> getAllEvents(@Header("Authorization") String authToken);
+    Call<EventListResponse> getAllEvents();
 
     @GET("events/{eventId}")
-    Call<Event> getEvent(@Header("Authorization") String authToken, @Path("eventId") String eventId);
+    Call<Event> getEvent(@Path("eventId") String eventId);
 
     @Headers({
             "Accept: application/json",
             "Content-type: application/json"
     })
     @POST("events")
-    Call<Event> postEvent(@Header("Authorization") String authToken, @Body EventRequestParams eventRequestParams);
+    Call<Event> postEvent(@Body EventRequestParams eventRequestParams);
 
     @Headers({
             "Accept: application/json",
             "Content-type: application/json"
     })
     @PUT("events/{eventId}")
-    Call<Event> updateEvent(@Header("Authorization") String authToken, @Path("eventId") String eventId, @Body EventRequestParams eventRequestParams);
+    Call<Event> updateEvent(@Path("eventId") String eventId, @Body EventRequestParams eventRequestParams);
 
     @DELETE("events/{eventId}")
-    Call<DefaultResponse> deleteEvent(@Header("Authorization") String authToken, @Path("eventId") String eventId);
+    Call<DefaultResponse> deleteEvent(@Path("eventId") String eventId);
 }
