@@ -10,7 +10,6 @@ android {
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
-
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -53,4 +52,11 @@ dependencies {
     // https://github.com/square/okhttp
     implementation 'com.squareup.okhttp3:okhttp:4.5.0'
     implementation 'com.squareup.okhttp3:logging-interceptor:4.5.0'
+    implementation 'androidx.room:room-runtime:2.2.5'
+    annotationProcessor 'androidx.room:room-compiler:2.2.5' //
+
+    //viewPager2
+    implementation "androidx.viewpager2:viewpager2:1.0.0"
+    implementation 'com.google.android.material:material:1.1.0'
+
 }

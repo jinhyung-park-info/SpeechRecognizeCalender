@@ -102,21 +102,4 @@ public abstract class BaseActivity extends AppCompatActivity {
         hideProgressDialog();
     }
 
-//    @Override
-//    public boolean dispatchTouchEvent(MotionEvent ev) {
-//        if (ev.getAction() == MotionEvent.ACTION_DOWN) {
-//            View view = getCurrentFocus();
-//            if (view instanceof EditText) {
-//                Rect outRect = new Rect();
-//                view.getGlobalVisibleRect(outRect);
-//                if (!outRect.contains((int) ev.getRawX(), (int) ev.getRawY())) {
-//                    view.clearFocus();
-//                    InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-//                    inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
-//                }
-//            }
-//        }
-//        return super.dispatchTouchEvent(ev);
-//    }
-
 }
