@@ -1,12 +1,7 @@
 package com.naver.hackday.android.speechrecognizecalender.src.ui.event;
 
-import android.Manifest;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
-
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -21,6 +16,8 @@ import com.naver.hackday.android.speechrecognizecalender.src.ui.event.viewModels
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.naver.hackday.android.speechrecognizecalender.src.common.util.Util.permissionCheck;
 
 public class MonthlyEventsActivity extends BaseActivity {
 
@@ -40,8 +37,8 @@ public class MonthlyEventsActivity extends BaseActivity {
         /* ViewModel & Binding */
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_montly_calander);
         mEventViewModel = new ViewModelProvider(getViewModelStore(), viewModelFactory).get(EventViewModel.class);
-        mClovaViewModel = new ViewModelProvider(getViewModelStore(), viewModelFactory).get(ClovaViewModel.class);
         mBinding.setEventViewModel(mEventViewModel);
+        mClovaViewModel = new ViewModelProvider(getViewModelStore(), viewModelFactory).get(ClovaViewModel.class);
         mBinding.setClovaViewModel(mClovaViewModel);
 
         /* ViewPager */
@@ -51,12 +48,17 @@ public class MonthlyEventsActivity extends BaseActivity {
 
     @Override
     protected void initDataBinding() {
+
+        // calendar api 로 받아온 결과 network fail 시
+        mEventViewModel.calendarFailResponse.observe(this, response -> {
+            showSimpleMessageDialog(getString(R.string.network_error));
+        });
+
         /* Month 조회 & tabLayout set */
         mEventViewModel.getMonthData().observe(this, months -> {
             mMonthlyFragmentAdapter.clearFragment();
             mTabTitleArray.clear();
             for (int i = 0; i < months.size(); i++) {
-                Log.d("월별 통", months.get(i).getMonth() + " " + months.get(i).getCount());
                 mMonthlyFragmentAdapter.addFragment(new MonthlyCalenderFragment((months.get(i).getMonth())));
                 mTabTitleArray.add(months.get(i).getMonth());
             }
@@ -65,20 +67,13 @@ public class MonthlyEventsActivity extends BaseActivity {
             /* TabLayout */
             new TabLayoutMediator(mBinding.activityMonthlyCalenderTabLayout, mBinding.activityMonthlyCalenderVp, true,
                     (tab, position) -> tab.setText(mTabTitleArray.get(position))).attach();
+
         });
+
     }
 
     @Override
     protected void initAfterBinding() {
-        permissionCheck();
+        permissionCheck(this);
     }
-
-    public void permissionCheck(){
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
-                || ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED
-                || ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.RECORD_AUDIO, Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
-        }
-    }
-
 }

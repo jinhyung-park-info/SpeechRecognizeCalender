@@ -82,11 +82,12 @@ public class MonthlyCalenderFragment extends Fragment {
             e.printStackTrace();
         }
 
+        if(mMonth == null){
+
+        }
+
         /* RecyclerView */
         mEventViewModel.getMonthlyEvents(from, to).observe(getViewLifecycleOwner(), eventList -> {
-            for (int i = 0; i < eventList.size(); i++) {
-                Log.d("월별 Event", eventList.get(i).toString());
-            }
             mEventViewModel.mEventListAdapter.submitList(eventList);
         });
 

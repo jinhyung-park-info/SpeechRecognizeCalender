@@ -8,6 +8,7 @@ import com.naver.hackday.android.speechrecognizecalender.src.common.models.Defau
 import com.naver.hackday.android.speechrecognizecalender.src.common.models.DefaultResponse;
 import com.naver.hackday.android.speechrecognizecalender.src.network.login.LogInService;
 
+
 public class LogInViewModel extends ViewModel {
 
     //xml과 연결되는 변수 (Data Binding)
