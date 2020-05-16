@@ -3,60 +3,93 @@ package com.naver.hackday.android.speechrecognizecalender.src.ui.event.viewModel
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.naver.hackday.android.speechrecognizecalender.src.db.temp.models.MonthCount;
+import com.naver.hackday.android.speechrecognizecalender.src.persistence.event.models.MonthCount;
+import com.naver.hackday.android.speechrecognizecalender.src.persistence.event.models.Event;
 import com.naver.hackday.android.speechrecognizecalender.src.ui.event.adapters.EventListAdapter;
-import com.naver.hackday.android.speechrecognizecalender.src.db.temp.models.Event;
-import com.naver.hackday.android.speechrecognizecalender.src.db.temp.models.EventStartTime;
+//import com.naver.hackday.android.speechrecognizecalender.src.db.temp.models.Event;
 
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import androidx.lifecycle.MutableLiveData;
+
+import com.naver.hackday.android.speechrecognizecalender.src.ApplicationClass;
+import com.naver.hackday.android.speechrecognizecalender.src.common.models.DefaultFailResponse;
+import com.naver.hackday.android.speechrecognizecalender.src.network.event.EventService;
+import com.naver.hackday.android.speechrecognizecalender.src.persistence.event.models.EventListResponse;
+import com.naver.hackday.android.speechrecognizecalender.src.repository.event.EventRepository;
+
+import java.util.concurrent.ExecutionException;
 
 public class EventViewModel extends ViewModel {
 
-    private RoomDbRepository mRoomDbRepository;
+//    private RoomDbRepository mRoomDbRepository;
     public EventListAdapter mEventListAdapter;
-
-    /* Constructor  */
-    public EventViewModel() {
-        mRoomDbRepository = new RoomDbRepository();
-        mEventListAdapter = new EventListAdapter(this);
-    }
+    private EventRepository mEventRepository;
 
     /* RoomDB Query*/
     public LiveData<List<Event>> getAllEvents() {
-        return mRoomDbRepository.getAllEvents();
+        return mEventRepository.getAllEvents();
     }
 
     public LiveData<List<Event>> getMonthlyEvents(Date from, Date to) {
-        return mRoomDbRepository.getMonthlyEvents(from, to);
-    }
-
-    public LiveData<List<EventStartTime>> getStartTime() {
-        return mRoomDbRepository.getStartTime();
+        return mEventRepository.getMonthlyEvents(from, to);
     }
 
     public LiveData<List<MonthCount>> getMonthData() {
-        return mRoomDbRepository.getMonthData();
-    }
-    /* ~~~~ */
-
-
-    /* Click Listener */
-    public void clickedInsertEventList() { //더미용 데이터 추가하는 함수
-        List<Event> eventList = new ArrayList<>();
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(new Date());
-        for (int i = 0; i < 200; i++) {
-            cal.add(Calendar.DATE, +1);
-            Date d = new Date(cal.getTimeInMillis());
-            eventList.add(new Event("calenderId" + i, "#calender#event", "done", "일정 내용" + i, "일정 상세" + i, "장소이름", new Date(cal.getTimeInMillis()),
-                    new Date(), new Date(), new Date()));
-        }
-        mRoomDbRepository.insertEventList(eventList);
+        return mEventRepository.getMonthData();
     }
 
+    //calendar api로 받아올 때 필요한 response
+    public MutableLiveData<EventListResponse> calendarResponse = new MutableLiveData<EventListResponse>();
+    public MutableLiveData<DefaultFailResponse> calendarFailResponse = new MutableLiveData<DefaultFailResponse>();
 
+    public EventViewModel() {
+        mEventRepository = new EventRepository(ApplicationClass.getApplicationClassContext());
+        mEventListAdapter = new EventListAdapter(this);
+        fetchAllCalendarEvents();
+    }
+
+    public void fetchAllCalendarEvents() {
+        // calendar api 를 이용해 모든 event 받아오기
+        final EventService eventService = new EventService();
+        eventService.getAllEventsFromCalendar(new EventService.EventCallback() {
+            @Override
+            public void testSuccess(EventListResponse eventListResponse) {
+                calendarResponse.setValue(eventListResponse);
+                deleteAllEvents();
+                insertAllEvents(eventListResponse.getItems());
+            }
+
+            @Override
+            public void testSuccess(Event event) {
+            }
+
+
+            @Override
+            public void networkFail() {
+                calendarFailResponse.setValue(new DefaultFailResponse());
+            }
+        });
+    }
+
+    public void insertAllEvents(List<Event> events) {
+        mEventRepository.insertAll(events);
+    }
+
+    public void insertEvent(Event event) {
+        mEventRepository.insert(event);
+    }
+
+    public void updateEvent(Event event) {
+        mEventRepository.update(event);
+    }
+
+    public void deleteEvent(Event event) {
+        mEventRepository.delete(event);
+    }
+
+    public void deleteAllEvents() {
+        mEventRepository.deleteAll();
+    }
 }

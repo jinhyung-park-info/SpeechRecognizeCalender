@@ -7,6 +7,7 @@ import android.util.Log;
 
 import androidx.databinding.ObservableField;
 import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.naver.hackday.android.speechrecognizecalender.R;
 import com.naver.hackday.android.speechrecognizecalender.src.common.util.AudioWriterPCM;
@@ -19,6 +20,7 @@ import java.util.List;
 
 import static com.naver.hackday.android.speechrecognizecalender.src.ApplicationClass.getApplicationClassContext;
 import static com.naver.hackday.android.speechrecognizecalender.src.common.util.AppConstants.CLIENT_ID;
+import static com.naver.hackday.android.speechrecognizecalender.src.common.util.Util.isEmulator;
 
 public class ClovaViewModel extends ViewModel {
 
@@ -31,11 +33,21 @@ public class ClovaViewModel extends ViewModel {
     private AudioWriterPCM writer;
 
     public ClovaViewModel() {
-        RecognitionHandler handler = new RecognitionHandler(this);
-        naverRecognizer = new NaverRecognizer(getApplicationClassContext(), handler, CLIENT_ID);
+        try {
+            if (!isEmulator()) {
+                RecognitionHandler handler = new RecognitionHandler(this);
+                naverRecognizer = new NaverRecognizer(getApplicationClassContext(), handler, CLIENT_ID);
 
-        // NOTE : initialize() must be called on start time.
-        naverRecognizer.getSpeechRecognizer().initialize();
+                // NOTE : initialize() must be called on start time.
+                naverRecognizer.getSpeechRecognizer().initialize();
+            }
+            else{
+                mRecognizerStatus.set("에뮬레이터에서는 Clova 이용이 불가능합니다");
+                mBtnEnable.set(false);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void clovaClicked() {

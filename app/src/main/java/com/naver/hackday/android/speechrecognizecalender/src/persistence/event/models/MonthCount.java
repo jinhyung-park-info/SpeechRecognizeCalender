@@ -1,9 +1,7 @@
-package com.naver.hackday.android.speechrecognizecalender.src.db.temp.models;
+package com.naver.hackday.android.speechrecognizecalender.src.persistence.event.models;
 
 import androidx.room.Entity;
 import androidx.room.TypeConverters;
-
-import com.naver.hackday.android.speechrecognizecalender.src.db.temp.Converters;
 
 import java.util.Date;
 

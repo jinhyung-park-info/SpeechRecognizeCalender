@@ -2,7 +2,8 @@ package com.naver.hackday.android.speechrecognizecalender.src.ui.event.viewModel
 
 import androidx.databinding.ObservableField;
 import androidx.lifecycle.ViewModel;
-import com.naver.hackday.android.speechrecognizecalender.src.db.temp.models.Event;
+
+import com.naver.hackday.android.speechrecognizecalender.src.persistence.event.models.Event;
 
 import java.util.Date;
 
@@ -17,7 +18,7 @@ public class EventListViewModel extends ViewModel {
     public ObservableField<String> description;
     public ObservableField<Date> startDay;
 
-    public interface ItemClickListener{
+    public interface ItemClickListener {
         void itemClick(String calenderId);
     }
 
@@ -27,10 +28,10 @@ public class EventListViewModel extends ViewModel {
         this.mItemClickListener = mItemClickListener;
         summary = new ObservableField<String>(mItem.getSummary());
         description = new ObservableField<String>(mItem.getDescription());
-        startDay = new ObservableField<Date>(mItem.getStartTime());
+        startDay = new ObservableField<Date>((mItem.getStart().getDate() == null) ? mItem.getStart().getDateTime() : mItem.getStart().getDate());
     }
 
     public void itemClicked() {
-        mItemClickListener.itemClick(mItem.getCalenderId());
+        mItemClickListener.itemClick(mItem.getEventId());
     }
 }

@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.naver.hackday.android.speechrecognizecalender.databinding.ItemEventListBinding;
-import com.naver.hackday.android.speechrecognizecalender.src.db.temp.models.Event;
+import com.naver.hackday.android.speechrecognizecalender.src.persistence.event.models.Event;
 import com.naver.hackday.android.speechrecognizecalender.src.ui.event.viewModels.EventListViewModel;
 import com.naver.hackday.android.speechrecognizecalender.src.ui.event.viewModels.EventViewModel;
 
@@ -28,15 +28,15 @@ public class EventListAdapter extends ListAdapter<Event, EventListAdapter.VisaLi
     private static DiffUtil.ItemCallback<Event> DIFF_CALLBACK = new DiffUtil.ItemCallback<Event>() {
         @Override
         public boolean areItemsTheSame(@NonNull Event oldItem, @NonNull Event newItem) {
-            return oldItem.getNo() == newItem.getNo();
+            return oldItem.getEventId() == newItem.getEventId();
         }
 
         @Override
         public boolean areContentsTheSame(@NonNull Event oldItem, @NonNull Event newItem) {
             return oldItem.getSummary().equals(newItem.getSummary())
                     && oldItem.getDescription().equals(newItem.getDescription())
-                    && oldItem.getStartTime().equals(newItem.getStartTime())
-                    && oldItem.getEndTime().equals(newItem.getEndTime());
+                    && (oldItem.getStart().getDate().equals(newItem.getStart().getDate()) || oldItem.getStart().getDateTime().equals(newItem.getStart().getDateTime()))
+                    && (oldItem.getEnd().getDate().equals(newItem.getEnd().getDate()) || oldItem.getEnd().getDateTime().equals(newItem.getEnd().getDateTime()));
         }
     };
 
