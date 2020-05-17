@@ -5,6 +5,8 @@ import android.util.Log;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.naver.hackday.android.speechrecognizecalender.R;
 import com.naver.hackday.android.speechrecognizecalender.databinding.ActivityMontlyCalanderBinding;
