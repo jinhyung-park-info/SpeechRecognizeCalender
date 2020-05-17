@@ -1,6 +1,7 @@
 package com.naver.hackday.android.speechrecognizecalender.src.common.util;
 
 import android.content.SharedPreferences;
+import android.util.DisplayMetrics;
 
 import java.text.SimpleDateFormat;
 import java.util.Locale;
@@ -28,6 +29,9 @@ public final class AppConstants {
     public static final SimpleDateFormat DATE_FORMAT_SECOND = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.KOREA);
     public static final SimpleDateFormat DATE_FORMAT_KR = new SimpleDateFormat("yyyy년 MM월 dd일", Locale.KOREA);
     public static final SimpleDateFormat DATE_FORMAT_EN = new SimpleDateFormat("dd MMM yyyy", Locale.ENGLISH);
+
+    //Naver Clova API
+    public static final String CLIENT_ID = "tcc3ojy059";
 
     // Retrofit 인스턴스
     public static Retrofit retrofit;

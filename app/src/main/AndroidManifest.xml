@@ -3,6 +3,12 @@
     package="com.naver.hackday.android.speechrecognizecalender">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+
 
     <application
         android:name=".src.ApplicationClass"
@@ -15,14 +21,14 @@
 
         <activity android:name=".src.ui.splash.SplashActivity" />
         <activity android:name=".src.ui.event.EventDetailActivity" />
-        <activity android:name=".src.ui.event.MonthlyEventsActivity" />
-        <activity android:name=".src.ui.login.MainActivity">
+        <activity android:name=".src.ui.event.MonthlyEventsActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".src.ui.login.MainActivity" />
 
     </application>
 

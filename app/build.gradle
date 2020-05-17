@@ -10,8 +10,10 @@ android {
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
-
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+//        ndk {
+//            abiFilters 'arm64-v8a', 'armeabi'
+//        }
     }
 
     buildTypes {
@@ -28,7 +30,10 @@ android {
     dataBinding {
         enabled true
     }
+}
 
+repositories {
+    jcenter()
 }
 
 dependencies {
@@ -53,4 +58,32 @@ dependencies {
     // https://github.com/square/okhttp
     implementation 'com.squareup.okhttp3:okhttp:4.5.0'
     implementation 'com.squareup.okhttp3:logging-interceptor:4.5.0'
+//<<<<<<< HEAD
+    implementation 'androidx.room:room-runtime:2.2.5'
+    annotationProcessor 'androidx.room:room-compiler:2.2.5' //
+
+    //viewPager2
+    implementation "androidx.viewpager2:viewpager2:1.0.0"
+    implementation 'com.google.android.material:material:1.1.0'
+
+    //Naver Clova API
+    implementation 'com.naver.speech.clientapi:naverspeech-ncp-sdk-android:1.1.7'
+
+//=======
+//    implementation 'androidx.room:room-runtime:2.1.0'
+//    annotationProcessor 'androidx.room:room-compiler:2.1.0'
+
+    // Google calendar Api implementation
+//    implementation 'com.google.android.gms:play-services-auth:15.0.1'
+//    implementation 'pub.devrel:easypermissions:0.3.0'
+
+    implementation 'com.google.oauth-client:google-oauth-client-jetty:1.23.0'
+    implementation('com.google.api-client:google-api-client-android:1.23.0') {
+        exclude group: 'org.apache.httpcomponents'
+    }
+
+    implementation('com.google.apis:google-api-services-calendar:v3-rev305-1.23.0') {
+        exclude group: 'org.apache.httpcomponents'
+    }
+//>>>>>>> 47e8ba5f73b9f729cf43c9a6b1ec288c4e9a7dcc
 }
