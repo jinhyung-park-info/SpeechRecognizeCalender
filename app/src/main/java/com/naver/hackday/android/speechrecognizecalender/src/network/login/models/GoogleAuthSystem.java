@@ -34,7 +34,6 @@ public class GoogleAuthSystem {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         final GoogleApi googleApi = retrofit.create(GoogleApi.class);
-
         // Make the actual post request to google server
         if (!accessTokenExpired()) {
             getAccessToken(googleApi, authCode, clientID, clientSecret, tokenListener);
