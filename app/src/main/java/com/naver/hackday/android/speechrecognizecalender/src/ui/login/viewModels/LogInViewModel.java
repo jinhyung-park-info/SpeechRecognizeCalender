@@ -13,7 +13,6 @@ import com.naver.hackday.android.speechrecognizecalender.src.ui.login.AuthListen
 
 import static com.naver.hackday.android.speechrecognizecalender.src.common.util.AppConstants.ACCESS_TOKEN;
 
-
 public class LogInViewModel extends ViewModel {
 
     public AuthListener authListener = null;

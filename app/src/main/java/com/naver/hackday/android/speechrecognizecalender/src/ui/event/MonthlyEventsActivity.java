@@ -1,7 +1,9 @@
 package com.naver.hackday.android.speechrecognizecalender.src.ui.event;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -20,11 +22,13 @@ import com.google.android.material.tabs.TabLayoutMediator;
 import com.naver.hackday.android.speechrecognizecalender.R;
 import com.naver.hackday.android.speechrecognizecalender.databinding.ActivityMontlyCalanderBinding;
 import com.naver.hackday.android.speechrecognizecalender.src.BaseActivity;
+import com.naver.hackday.android.speechrecognizecalender.src.common.util.SharedPreferenceManager;
 import com.naver.hackday.android.speechrecognizecalender.src.network.clova.ClovaViewModel;
 import com.naver.hackday.android.speechrecognizecalender.src.ui.event.adapters.MonthlyFragmentAdapter;
 import com.naver.hackday.android.speechrecognizecalender.src.ui.event.fragments.MonthlyCalenderFragment;
 import com.naver.hackday.android.speechrecognizecalender.src.ui.event.viewModels.EventViewModel;
 import com.naver.hackday.android.speechrecognizecalender.src.ui.login.HomeActivity;
+import com.naver.hackday.android.speechrecognizecalender.src.ui.login.MainActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +42,6 @@ public class MonthlyEventsActivity extends BaseActivity {
     private ActivityMontlyCalanderBinding mBinding;
     private MonthlyFragmentAdapter mMonthlyFragmentAdapter;
     private List<String> mTabTitleArray = new ArrayList<>();
-    private Button buttonSignOut;
     private GoogleSignInClient mGoogleSignInClient;
 
     @Override
@@ -89,32 +92,25 @@ public class MonthlyEventsActivity extends BaseActivity {
     @Override
     protected void initAfterBinding() {
         permissionCheck(this);
-        setSignOutButton();
+        buildClient();
     }
 
-    private void setSignOutButton() {
-//        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-//                .requestEmail()
-//                .build();
-//        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-//
-//        buttonSignOut = findViewById(R.id.activity_home_bt_sign_out);
-//        buttonSignOut.setOnClickListener(v -> {
-//            if (v.getId() == R.id.activity_home_bt_sign_out) {
-//                signOut();
-//            }
-//        });
+    private void buildClient() {
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
     }
 
-    private void signOut() {
-//        mGoogleSignInClient.signOut()
-//                .addOnCompleteListener(this, new OnCompleteListener<Void>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<Void> task) {
-//                        Toast.makeText(MonthlyEventsActivity.this, "정상적으로 로그아웃되었습니다", Toast.LENGTH_LONG).show();
-//                        finish();
-//                    }
-//                });
+    public void signOutBtnClicked(View v) {
+        mGoogleSignInClient.signOut();
+        updateUIwhenSignOut();
+    }
+
+    private void updateUIwhenSignOut() {
+        showToast("정상적으로 로그아웃되었습니다!");
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
     }
 
 }
