@@ -3,24 +3,15 @@ package com.naver.hackday.android.speechrecognizecalender.src.ui.event;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
-import android.widget.Toast;
-
-import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
-
-import androidx.appcompat.app.AppCompatActivity;
-
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.naver.hackday.android.speechrecognizecalender.R;
 import com.naver.hackday.android.speechrecognizecalender.databinding.ActivityMontlyCalanderBinding;
 import com.naver.hackday.android.speechrecognizecalender.src.BaseActivity;
 import com.naver.hackday.android.speechrecognizecalender.src.network.clova.ClovaViewModel;
+import com.naver.hackday.android.speechrecognizecalender.src.network.clova.TextExtractionViewModel;
 import com.naver.hackday.android.speechrecognizecalender.src.ui.event.adapters.MonthlyFragmentAdapter;
 import com.naver.hackday.android.speechrecognizecalender.src.ui.event.fragments.MonthlyCalenderFragment;
 import com.naver.hackday.android.speechrecognizecalender.src.ui.event.viewModels.EventViewModel;
@@ -35,6 +26,8 @@ public class MonthlyEventsActivity extends BaseActivity {
 
     private EventViewModel mEventViewModel;
     private ClovaViewModel mClovaViewModel;
+    private TextExtractionViewModel mTextExtractionViewModel;
+
     private ActivityMontlyCalanderBinding mBinding;
     private MonthlyFragmentAdapter mMonthlyFragmentAdapter;
     private List<String> mTabTitleArray = new ArrayList<>();
@@ -54,6 +47,8 @@ public class MonthlyEventsActivity extends BaseActivity {
         mBinding.setEventViewModel(mEventViewModel);
         mClovaViewModel = new ViewModelProvider(getViewModelStore(), viewModelFactory).get(ClovaViewModel.class);
         mBinding.setClovaViewModel(mClovaViewModel);
+        mTextExtractionViewModel = new ViewModelProvider(getViewModelStore(), viewModelFactory).get(TextExtractionViewModel.class);
+        mBinding.setTextExtractionViewModel(mTextExtractionViewModel);
 
         /* ViewPager */
         mMonthlyFragmentAdapter = new MonthlyFragmentAdapter(getSupportFragmentManager(), getLifecycle());
@@ -84,6 +79,14 @@ public class MonthlyEventsActivity extends BaseActivity {
 
         });
 
+        mClovaViewModel.mRecognizedString.observe(this, response -> {
+            mTextExtractionViewModel.mSentence.setValue(response);
+            mTextExtractionViewModel.sentenceToDate();
+        });
+
+        mTextExtractionViewModel.mDate.observe(this, response -> {
+            Log.d("결과", response);
+        });
     }
 
     @Override

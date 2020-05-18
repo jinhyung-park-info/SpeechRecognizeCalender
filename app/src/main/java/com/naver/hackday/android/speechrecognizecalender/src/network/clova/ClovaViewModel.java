@@ -6,6 +6,7 @@ import android.os.Message;
 import android.util.Log;
 
 import androidx.databinding.ObservableField;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -27,28 +28,30 @@ public class ClovaViewModel extends ViewModel {
 
     public ObservableField<String> mRecognizerStatus = new ObservableField<>("Clova Start");
     public ObservableField<String> mRecognizedResult = new ObservableField<>("");
-
     public ObservableField<Boolean> mBtnEnable = new ObservableField<>(true);
+
+    public MutableLiveData<String> mRecognizedString;
 
     private NaverRecognizer naverRecognizer;
     private AudioWriterPCM writer;
 
     public ClovaViewModel() {
         try {
-            if (!isEmulator()) {
+//            if (!isEmulator()) {
                 RecognitionHandler handler = new RecognitionHandler(this);
                 naverRecognizer = new NaverRecognizer(getApplicationClassContext(), handler, CLOVA_CLIENT_ID);
 
                 // NOTE : initialize() must be called on start time.
                 naverRecognizer.getSpeechRecognizer().initialize();
-            }
-            else{
-                mRecognizerStatus.set("에뮬레이터에서는 Clova 이용이 불가능합니다");
-                mBtnEnable.set(false);
-            }
+//            }
+//            else{
+//                mRecognizerStatus.set("에뮬레이터에서는 Clova 이용이 불가능합니다");
+//                mBtnEnable.set(false);
+//            }
         } catch (Exception e) {
             e.printStackTrace();
         }
+        mRecognizedString = new MutableLiveData<String>();
     }
 
     public void clovaClicked() {
@@ -65,6 +68,16 @@ public class ClovaViewModel extends ViewModel {
         }
     }
 
+    public void clickTest(){
+        mRecognizedString.setValue("내일 오후3시"); //5-20
+        mRecognizedString.setValue("오늘 7시"); // 5-19
+        mRecognizedString.setValue("내일모래 오후 3시"); //5-21
+        mRecognizedString.setValue("일요일"); // ?
+        mRecognizedString.setValue("다음 주 수요일"); //
+        mRecognizedString.setValue("이번 주 토요일");
+        mRecognizedString.setValue("6월 5일");
+        mRecognizedString.setValue("12월 15일");
+    }
     static class RecognitionHandler extends Handler {
         private final WeakReference<ClovaViewModel> mViewModel;
 
@@ -107,6 +120,7 @@ public class ClovaViewModel extends ViewModel {
                 // The first element is recognition result for speech.
                 SpeechRecognitionResult speechRecognitionResult = (SpeechRecognitionResult) msg.obj;
                 List<String> results = speechRecognitionResult.getResults();
+                mRecognizedString.setValue(results.get(0));
                 StringBuilder strBuf = new StringBuilder();
                 for (String result : results) {
                     strBuf.append(result);
