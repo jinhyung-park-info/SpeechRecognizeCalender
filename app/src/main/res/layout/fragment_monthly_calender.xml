@@ -5,6 +5,9 @@
 
     <data>
 
+        <variable
+            name="monthly_calendar"
+            type="com.naver.hackday.android.speechrecognizecalender.src.ui.event.MonthlyEventsActivity" />
     </data>
 
     <LinearLayout
@@ -23,11 +26,11 @@
             tools:listitem="@layout/item_event_list" />
 
         <Button
-            android:id="@+id/activity_home_bt_sign_out"
+            android:id="@+id/fragment_monthly_calender_bt_sign_out"
             android:layout_width="142dp"
             android:layout_height="56dp"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="0sp"
+            android:onClick="signOutBtnClicked"
             android:text="로그아웃" />
 
     </LinearLayout>

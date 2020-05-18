@@ -1,10 +1,12 @@
 package com.naver.hackday.android.speechrecognizecalender.src.network.event;
 
+import com.naver.hackday.android.speechrecognizecalender.src.ApplicationClass;
 import com.naver.hackday.android.speechrecognizecalender.src.common.util.AuthorizationInterceptor;
 import com.naver.hackday.android.speechrecognizecalender.src.common.util.GoogleApi;
+import com.naver.hackday.android.speechrecognizecalender.src.common.util.SharedPreferenceManager;
 import com.naver.hackday.android.speechrecognizecalender.src.persistence.event.models.Event;
 import com.naver.hackday.android.speechrecognizecalender.src.persistence.event.models.EventListResponse;
-
+import static com.naver.hackday.android.speechrecognizecalender.src.common.util.AppConstants.EMAIL;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
@@ -23,11 +25,8 @@ public class EventService {
         void networkFail();
     }
 
-
-    private static final String CALENDAR_ID = "whdwhd0115@gmail.com";
+    private static final String CALENDAR_ID = SharedPreferenceManager.getString(ApplicationClass.getApplicationClassContext(), EMAIL);
     private static final String GOOGLE_CALENDAR_BASE_URL = "https://www.googleapis.com/calendar/v3/calendars/" + CALENDAR_ID + "/";
-
-
     public static Retrofit retrofit;
 
     public static Retrofit getCalendarRetrofit() {

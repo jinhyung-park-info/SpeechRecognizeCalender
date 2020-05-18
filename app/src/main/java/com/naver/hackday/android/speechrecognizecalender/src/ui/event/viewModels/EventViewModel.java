@@ -1,5 +1,8 @@
 package com.naver.hackday.android.speechrecognizecalender.src.ui.event.viewModels;
 
+import android.app.Application;
+import android.widget.Toast;
+
 import androidx.databinding.ObservableField;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;

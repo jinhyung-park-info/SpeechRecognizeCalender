@@ -27,7 +27,8 @@ public final class AppConstants {
     public static final String DEFAULT_VALUE_STRING = "";
     public static final String ACCESS_TOKEN = "ACCESS-TOKEN";               // Access Token 키 값
     public static final String REFRESH_TOKEN = "REFRESH-TOKEN";             // Refresh Token 키 값
-    public static final String EXPIRE_TIME = "EXPIRE-TIME";                     // Expire Time 키 값
+    public static final String EXPIRE_TIME = "EXPIRE-TIME";                 // Expire Time 키 값
+    public static final String EMAIL = "EMAIL";                             // email 키 값
 
     // TODO SharedPreferenceManager 만들었는데 이제 이거 필요한가요?
     public static final String TAG = "APP";                                 // SharedPreferences 키 값
