@@ -1,5 +1,8 @@
 package com.naver.hackday.android.speechrecognizecalender.src.ui.login.viewModels;
 
+import android.os.Build;
+
+import androidx.annotation.RequiresApi;
 import androidx.lifecycle.ViewModel;
 
 import com.naver.hackday.android.speechrecognizecalender.src.ApplicationClass;
@@ -15,6 +18,7 @@ public class LogInViewModel extends ViewModel {
 
     public AuthListener authListener = null;
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public void requestAccessToken(String authCode, String clientID, String clientSecret) {
         try {
             if (authCode == null) {
