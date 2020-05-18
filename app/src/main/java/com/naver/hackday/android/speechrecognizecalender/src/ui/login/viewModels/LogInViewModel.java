@@ -1,43 +1,43 @@
 package com.naver.hackday.android.speechrecognizecalender.src.ui.login.viewModels;
 
-import androidx.databinding.ObservableField;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.naver.hackday.android.speechrecognizecalender.src.common.models.DefaultFailResponse;
-import com.naver.hackday.android.speechrecognizecalender.src.common.models.DefaultResponse;
-import com.naver.hackday.android.speechrecognizecalender.src.network.login.LogInService;
+import com.naver.hackday.android.speechrecognizecalender.src.ApplicationClass;
+import com.naver.hackday.android.speechrecognizecalender.src.common.util.SharedPreferenceManager;
+import com.naver.hackday.android.speechrecognizecalender.src.network.login.models.GoogleAuthSystem;
+import com.naver.hackday.android.speechrecognizecalender.src.network.login.models.TokenListener;
+import com.naver.hackday.android.speechrecognizecalender.src.ui.login.AuthListener;
+
+import static com.naver.hackday.android.speechrecognizecalender.src.common.util.AppConstants.ACCESS_TOKEN;
 
 
 public class LogInViewModel extends ViewModel {
 
-    //xml과 연결되는 변수 (Data Binding)
-    public ObservableField<String> id = new ObservableField<>("");
-    public ObservableField<String> password = new ObservableField<>("");
+    public AuthListener authListener = null;
 
-    //view 에서 observe하고있을 변수
-    public MutableLiveData<DefaultResponse> defaultResponse = new MutableLiveData<DefaultResponse>();
-    public MutableLiveData<DefaultFailResponse> defaultFailResponse = new MutableLiveData<DefaultFailResponse>();
-
-    //setLifeCycle
-
-    public LogInViewModel() {
-
-    }
-
-    public void signInBtnClicked() {
-        final LogInService logInService = new LogInService();
-        logInService.tryTest(new LogInService.LogInCallback() {
-            @Override
-            public void testSuccess(DefaultResponse response) {
-                defaultResponse.setValue(response);
+    public void requestAccessToken(String authCode, String clientID, String clientSecret) {
+        try {
+            if (authCode == null) {
+                authListener.onFailureGetAccessToken();
+                return;
             }
 
-            @Override
-            public void networkFail() {
-                defaultFailResponse.setValue(new DefaultFailResponse());
-            }
-        });
+            GoogleAuthSystem googleAuthSystem = new GoogleAuthSystem();
+            googleAuthSystem.requestAccessToken(authCode, clientID, clientSecret, new TokenListener() {
+                @Override
+                public void onSuccessGetAccessToken() {
+                    authListener.onSuccessGetAccessToken();
+                }
+
+                @Override
+                public void onFailureGetAccessToken() {
+                    authListener.onFailureGetAccessToken();
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+            authListener.onFailureGetAccessToken();
+        }
     }
 }
 

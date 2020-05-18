@@ -117,9 +117,9 @@ public class EventViewModel extends ViewModel {
 
     }
 
-    public void eventUpdateBtnClicked(){
+    public void eventUpdateBtnClicked() {
         final EventDetail eventDetail = new EventDetail();
-        eventDetail.eventUpdate(calendarID,eventID,updateEndDate.get(),updateStartDate.get(), new EventDetail.EventCallback(){
+        eventDetail.eventUpdate(calendarID, eventID, updateEndDate.get(), updateStartDate.get(), new EventDetail.EventCallback() {
             @Override
             public void testSuccess(EventResource response) {
                 eventCreateResponse.setValue(response);
@@ -135,6 +135,7 @@ public class EventViewModel extends ViewModel {
                 eventFailResponse.setValue(new DefaultFailResponse());
             }
         });
+    }
 
     public void fetchAllCalendarEvents() {
         // calendar api 를 이용해 모든 event 받아오기

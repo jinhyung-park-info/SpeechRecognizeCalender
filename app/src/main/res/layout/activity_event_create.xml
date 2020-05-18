@@ -3,8 +3,6 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
-        <import type="com.naver.hackday.android.speechrecognizecalender.src.ui.login.MainConverter" />
-
         <variable
             name="viewModel"
             type="com.naver.hackday.android.speechrecognizecalender.src.ui.event.viewModels.EventViewModel" />
@@ -29,12 +27,11 @@
         android:text="@={viewModel.createEndDate}"/>
 
     <Button
-        android:it="@+id/activity_event_add_btn_save"
+        android:id="@+id/activity_event_add_btn_save"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="저장하기"
         android:layout_gravity="center"
-        android:enabled="@{MainConverter.signInBtnValidate(viewModel.startDate, viewModel.endDate)}"
         android:onClick="@{() -> viewModel.eventCreateBtnClicked()}"/>
     </LinearLayout>
 </layout>

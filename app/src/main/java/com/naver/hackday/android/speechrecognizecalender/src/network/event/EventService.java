@@ -1,15 +1,13 @@
 package com.naver.hackday.android.speechrecognizecalender.src.network.event;
 
 import com.naver.hackday.android.speechrecognizecalender.src.common.util.AuthorizationInterceptor;
-import com.naver.hackday.android.speechrecognizecalender.src.common.util.XAccessTokenInterceptor;
-import com.naver.hackday.android.speechrecognizecalender.src.network.event.interfaces.EventRetrofitInterface;
+import com.naver.hackday.android.speechrecognizecalender.src.common.util.GoogleApi;
 import com.naver.hackday.android.speechrecognizecalender.src.persistence.event.models.Event;
 import com.naver.hackday.android.speechrecognizecalender.src.persistence.event.models.EventListResponse;
 
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
-import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -55,8 +53,8 @@ public class EventService {
     }
 
     public void getAllEventsFromCalendar(EventCallback eventCallback) {
-        final EventRetrofitInterface eventRetrofitInterface = getCalendarRetrofit().create(EventRetrofitInterface.class);
-        eventRetrofitInterface.getAllEvents().enqueue(new Callback<EventListResponse>() {
+        final GoogleApi googleApi = getCalendarRetrofit().create(GoogleApi.class);
+        googleApi.getAllEvents().enqueue(new Callback<EventListResponse>() {
             @Override
             public void onResponse(Call<EventListResponse> call, Response<EventListResponse> response) {
                 EventListResponse eventListResponse = response.body();
@@ -80,8 +78,8 @@ public class EventService {
     }
 
     public void getEventFromCalendar(String eventId, EventCallback eventCallback) {
-        final EventRetrofitInterface eventRetrofitInterface = getCalendarRetrofit().create(EventRetrofitInterface.class);
-        eventRetrofitInterface.getEvent(eventId).enqueue(new Callback<Event>() {
+        final GoogleApi googleApi = getCalendarRetrofit().create(GoogleApi.class);
+        googleApi.getEvent(eventId).enqueue(new Callback<Event>() {
             @Override
             public void onResponse(Call<Event> call, Response<Event> response) {
                 Event eventResponse = response.body();

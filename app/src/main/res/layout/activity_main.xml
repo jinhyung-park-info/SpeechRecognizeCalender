@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="com.naver.hackday.android.speechrecognizecalender.src.ui.login.MainConverter" />
 
         <variable
             name="viewModel"
@@ -16,36 +15,22 @@
         android:orientation="vertical"
         tools:context=".src.ui.login.MainActivity">
 
-        <EditText
+        <TextView
+            android:id="@+id/activity_main_tv_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            android:hint="id"
-            android:text="@={viewModel.id}" />
+            android:layout_marginTop="150sp"
+            android:text="   음성 인식 캘린더"
+            android:textColor="#020202"
+            android:textSize="48sp" />
 
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            android:hint="password"
-            android:text="@={viewModel.password}" />
+        <com.google.android.gms.common.SignInButton
+            android:id="@+id/activity_main_bt_signin"
+            android:layout_width="269dp"
+            android:layout_height="67dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="250sp" />
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:enabled="@{MainConverter.signInBtnValidate(viewModel.id, viewModel.password)}"
-            android:onClick="@{() -> viewModel.signInBtnClicked()}"
-            android:padding="10dp"
-            android:text="Login" />
-
-        <Button
-            android:id="@+id/activity_main_btn_next"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:padding="10dp"
-            android:text="Next" />
     </LinearLayout>
 
 </layout>

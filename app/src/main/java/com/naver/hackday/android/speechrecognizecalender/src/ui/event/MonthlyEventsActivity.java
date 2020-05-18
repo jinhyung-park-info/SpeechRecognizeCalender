@@ -2,11 +2,20 @@ package com.naver.hackday.android.speechrecognizecalender.src.ui.event;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Button;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.naver.hackday.android.speechrecognizecalender.R;
 import com.naver.hackday.android.speechrecognizecalender.databinding.ActivityMontlyCalanderBinding;
@@ -15,6 +24,7 @@ import com.naver.hackday.android.speechrecognizecalender.src.network.clova.Clova
 import com.naver.hackday.android.speechrecognizecalender.src.ui.event.adapters.MonthlyFragmentAdapter;
 import com.naver.hackday.android.speechrecognizecalender.src.ui.event.fragments.MonthlyCalenderFragment;
 import com.naver.hackday.android.speechrecognizecalender.src.ui.event.viewModels.EventViewModel;
+import com.naver.hackday.android.speechrecognizecalender.src.ui.login.HomeActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +38,8 @@ public class MonthlyEventsActivity extends BaseActivity {
     private ActivityMontlyCalanderBinding mBinding;
     private MonthlyFragmentAdapter mMonthlyFragmentAdapter;
     private List<String> mTabTitleArray = new ArrayList<>();
+    private Button buttonSignOut;
+    private GoogleSignInClient mGoogleSignInClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,5 +89,32 @@ public class MonthlyEventsActivity extends BaseActivity {
     @Override
     protected void initAfterBinding() {
         permissionCheck(this);
+        setSignOutButton();
     }
+
+    private void setSignOutButton() {
+//        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+//                .requestEmail()
+//                .build();
+//        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+//
+//        buttonSignOut = findViewById(R.id.activity_home_bt_sign_out);
+//        buttonSignOut.setOnClickListener(v -> {
+//            if (v.getId() == R.id.activity_home_bt_sign_out) {
+//                signOut();
+//            }
+//        });
+    }
+
+    private void signOut() {
+//        mGoogleSignInClient.signOut()
+//                .addOnCompleteListener(this, new OnCompleteListener<Void>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<Void> task) {
+//                        Toast.makeText(MonthlyEventsActivity.this, "정상적으로 로그아웃되었습니다", Toast.LENGTH_LONG).show();
+//                        finish();
+//                    }
+//                });
+    }
+
 }

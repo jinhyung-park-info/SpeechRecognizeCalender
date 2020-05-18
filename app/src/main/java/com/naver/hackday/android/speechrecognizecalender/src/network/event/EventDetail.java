@@ -1,10 +1,10 @@
 package com.naver.hackday.android.speechrecognizecalender.src.network.event;
 
-import com.naver.hackday.android.speechrecognizecalender.src.network.event.interfaces.EventRetrofitInterface;
 import com.naver.hackday.android.speechrecognizecalender.src.network.event.models.End;
 import com.naver.hackday.android.speechrecognizecalender.src.network.event.models.EventResource;
 import com.naver.hackday.android.speechrecognizecalender.src.network.event.models.RequestBody;
 import com.naver.hackday.android.speechrecognizecalender.src.network.event.models.Start;
+import com.naver.hackday.android.speechrecognizecalender.src.common.util.GoogleApi;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -35,12 +35,12 @@ public class EventDetail {
     }
 
     public void eventCreate(String calenderID, String endDate, String startDate, EventCallback eventCallback){
-        EventRetrofitInterface retrofitInterface = getEventRetrofit().create(EventRetrofitInterface.class);
+        GoogleApi googleApi = getEventRetrofit().create(GoogleApi.class);
         End endTime = new End(endDate);
         Start startTime = new Start(startDate);
         RequestBody requestBody = new RequestBody(startTime, endTime);
 
-        retrofitInterface.postData(accessToken, calenderID, requestBody).enqueue(new Callback<EventResource>() {
+        googleApi.postData(accessToken, calenderID, requestBody).enqueue(new Callback<EventResource>() {
             @Override
             public void onResponse(Call<EventResource> call, Response<EventResource> response) {
                 EventResource postResponse = response.body();
@@ -61,8 +61,8 @@ public class EventDetail {
 
     //event 삭제
     public void eventDelete(String calenderID, String eventID, EventCallback eventCallback){
-        EventRetrofitInterface retrofitInterface = getEventRetrofit().create(EventRetrofitInterface.class);
-        retrofitInterface.deleteData(APIKey, calenderID, eventID).enqueue(new Callback<Void>(){
+        GoogleApi googleApi = getEventRetrofit().create(GoogleApi.class);
+        googleApi.deleteData(APIKey, calenderID, eventID).enqueue(new Callback<Void>(){
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.isSuccessful()){
@@ -81,11 +81,11 @@ public class EventDetail {
     }
 
     public void eventUpdate(String calendarID, String eventID, String endDate, String startDate, EventCallback eventCallback){
-        EventRetrofitInterface retrofitInterface = getEventRetrofit().create(EventRetrofitInterface.class);
+        GoogleApi googleApi = getEventRetrofit().create(GoogleApi.class);
         End endTime = new End(endDate);
         Start startTime = new Start(startDate);
         RequestBody requestBody = new RequestBody(startTime, endTime);
-        retrofitInterface.updateData(APIKey, calendarID, eventID, requestBody).enqueue(new Callback<EventResource>() {
+        googleApi.updateData(APIKey, calendarID, eventID, requestBody).enqueue(new Callback<EventResource>() {
             @Override
             public void onResponse(Call<EventResource> call, Response<EventResource> response) {
                 EventResource putResponse = response.body();
