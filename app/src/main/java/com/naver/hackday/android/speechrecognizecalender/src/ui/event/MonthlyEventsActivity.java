@@ -17,11 +17,13 @@ import com.naver.hackday.android.speechrecognizecalender.src.network.clova.TextE
 import com.naver.hackday.android.speechrecognizecalender.src.ui.event.adapters.MonthlyFragmentAdapter;
 import com.naver.hackday.android.speechrecognizecalender.src.ui.event.fragments.MonthlyCalenderFragment;
 import com.naver.hackday.android.speechrecognizecalender.src.ui.event.viewModels.EventViewModel;
-import com.naver.hackday.android.speechrecognizecalender.src.ui.login.HomeActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.naver.hackday.android.speechrecognizecalender.src.common.util.AppConstants.DAY_TO_DAY;
+import static com.naver.hackday.android.speechrecognizecalender.src.common.util.AppConstants.ONE_DAY;
+import static com.naver.hackday.android.speechrecognizecalender.src.common.util.AppConstants.UNKNOWN;
 import static com.naver.hackday.android.speechrecognizecalender.src.common.util.Util.permissionCheck;
 
 public class MonthlyEventsActivity extends BaseActivity {
@@ -83,17 +85,23 @@ public class MonthlyEventsActivity extends BaseActivity {
 
         mClovaViewModel.mRecognizedString.observe(this, response -> {
             mTextExtractionViewModel.mSentence.setValue(response);
-            mTextExtractionViewModel.sentenceToDate();
+            mTextExtractionViewModel.doExtraction();
         });
 
-        mTextExtractionViewModel.mDate.observe(this, response -> {
-//            mTextExtractionViewModel.mMode
-            Log.d("결과", response);
-        });
-
-        mEventViewModel.eventDetail.observe(this, response -> {
-//            mTextExtractionViewModel.mMode
-            Log.d("calenderId", response);
+        mTextExtractionViewModel.mResult.observe(this, response -> {
+            Log.d("결과 mEndDate", response.toString());
+            if(response.getMode() == ONE_DAY){
+                showSimpleMessageDialog(response.getDate());
+            }
+            else if(response.getMode() == DAY_TO_DAY){
+                showSimpleMessageDialog("start = "+response.getStartDate() + "\nend = " + response.getEndDate());
+            }
+            else if(response.getMode() == UNKNOWN ){
+                showSimpleMessageDialog("인식 실패");
+            }
+            else{
+                showSimpleMessageDialog("else" + response.getMode());
+            }
         });
     }
 

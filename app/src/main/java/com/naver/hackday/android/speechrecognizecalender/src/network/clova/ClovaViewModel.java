@@ -43,8 +43,7 @@ public class ClovaViewModel extends ViewModel {
 
                 // NOTE : initialize() must be called on start time.
                 naverRecognizer.getSpeechRecognizer().initialize();
-            }
-            else{
+            } else {
                 mRecognizerStatus.set("에뮬레이터에서는 Clova 이용이 불가능합니다");
                 mBtnEnable.set(false);
             }
@@ -68,7 +67,7 @@ public class ClovaViewModel extends ViewModel {
         }
     }
 
-    public void clickTest(){
+    public void clickTest() {
         mRecognizedString.setValue("내일 오후3시"); //5-20
         mRecognizedString.setValue("오늘 7시"); // 5-19
         mRecognizedString.setValue("내일모래 오후 3시"); //5-21
@@ -78,7 +77,13 @@ public class ClovaViewModel extends ViewModel {
         mRecognizedString.setValue("6월 5일");
         mRecognizedString.setValue("3월19일");
         mRecognizedString.setValue("12월 15일");
+        mRecognizedString.setValue("25일");
+        mRecognizedString.setValue("2019년 3월 2일 5시부터 오후 세시까지");
+        mRecognizedString.setValue("이번주 목요일 3시부터 오후5시까지 핵데이 일정 잡아줘");
+        mRecognizedString.setValue("일요일 5시부터 다음주 금요일 열두시까지");
+        mRecognizedString.setValue("12월 10일 오후 세시부터 다섯시까지 핵데이 일정 잡아줘");
     }
+
     static class RecognitionHandler extends Handler {
         private final WeakReference<ClovaViewModel> mViewModel;
 
