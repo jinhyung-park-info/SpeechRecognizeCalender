@@ -17,12 +17,21 @@ public class TextExtractionViewModel extends ViewModel {
     public MutableLiveData<String> mDate;
     public MutableLiveData<String> mTime;
 
+    public MutableLiveData<String> mStartDate;
+    public MutableLiveData<String> mEndDate;
+    public MutableLiveData<Integer> mMode; // 날짜만(yyyy-MM-dd 00:00:00), 날짜+시간(yyyy-MM-dd HH:mm:ss), 시작일+끝나는날
+
     public TextExtractionViewModel() {
         mDate = new MutableLiveData<>();
         mTime = new MutableLiveData<>();
         mSentence = new MutableLiveData<>();
     }
 
+    public void task() {
+        if(mSentence.getValue().contains("부터")){
+
+        }
+    }
     public void sentenceToDate() {
         //오늘, 내일, 모래, ?월?일, ?일, ?요일
         Date todayDate = new Date();

@@ -37,17 +37,17 @@ public class ClovaViewModel extends ViewModel {
 
     public ClovaViewModel() {
         try {
-//            if (!isEmulator()) {
+            if (!isEmulator()) {
                 RecognitionHandler handler = new RecognitionHandler(this);
                 naverRecognizer = new NaverRecognizer(getApplicationClassContext(), handler, CLOVA_CLIENT_ID);
 
                 // NOTE : initialize() must be called on start time.
                 naverRecognizer.getSpeechRecognizer().initialize();
-//            }
-//            else{
-//                mRecognizerStatus.set("에뮬레이터에서는 Clova 이용이 불가능합니다");
-//                mBtnEnable.set(false);
-//            }
+            }
+            else{
+                mRecognizerStatus.set("에뮬레이터에서는 Clova 이용이 불가능합니다");
+                mBtnEnable.set(false);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -76,6 +76,7 @@ public class ClovaViewModel extends ViewModel {
         mRecognizedString.setValue("다음 주 수요일"); //
         mRecognizedString.setValue("이번 주 토요일");
         mRecognizedString.setValue("6월 5일");
+        mRecognizedString.setValue("3월19일");
         mRecognizedString.setValue("12월 15일");
     }
     static class RecognitionHandler extends Handler {

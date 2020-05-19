@@ -71,4 +71,9 @@ public final class AppConstants {
 
         return retrofit;
     }
+
+    // 8. 일정 형식
+    public static final int ONLY_DAY = 1; //날짜만(yyyy-MM-dd 00:00:00)
+    public static final int TIME_DAY = 2;
+    public static final int DAY_TO_DAY = 3;
 }

@@ -3,8 +3,10 @@ package com.naver.hackday.android.speechrecognizecalender.src.ui.event;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
+
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
+
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.naver.hackday.android.speechrecognizecalender.R;
@@ -85,7 +87,13 @@ public class MonthlyEventsActivity extends BaseActivity {
         });
 
         mTextExtractionViewModel.mDate.observe(this, response -> {
+//            mTextExtractionViewModel.mMode
             Log.d("결과", response);
+        });
+
+        mEventViewModel.eventDetail.observe(this, response -> {
+//            mTextExtractionViewModel.mMode
+            Log.d("calenderId", response);
         });
     }
 
