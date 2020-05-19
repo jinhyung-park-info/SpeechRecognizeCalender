@@ -2,32 +2,22 @@ package com.naver.hackday.android.speechrecognizecalender.src.ui.event;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
-
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.naver.hackday.android.speechrecognizecalender.R;
 import com.naver.hackday.android.speechrecognizecalender.databinding.ActivityMontlyCalanderBinding;
 import com.naver.hackday.android.speechrecognizecalender.src.BaseActivity;
-import com.naver.hackday.android.speechrecognizecalender.src.common.util.SharedPreferenceManager;
 import com.naver.hackday.android.speechrecognizecalender.src.network.clova.ClovaViewModel;
 import com.naver.hackday.android.speechrecognizecalender.src.ui.event.adapters.MonthlyFragmentAdapter;
 import com.naver.hackday.android.speechrecognizecalender.src.ui.event.fragments.MonthlyCalenderFragment;
 import com.naver.hackday.android.speechrecognizecalender.src.ui.event.viewModels.EventViewModel;
-import com.naver.hackday.android.speechrecognizecalender.src.ui.login.HomeActivity;
 import com.naver.hackday.android.speechrecognizecalender.src.ui.login.MainActivity;
 
 import java.util.ArrayList;
@@ -54,6 +44,7 @@ public class MonthlyEventsActivity extends BaseActivity {
         /* ViewModel & Binding */
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_montly_calander);
         mEventViewModel = new ViewModelProvider(getViewModelStore(), viewModelFactory).get(EventViewModel.class);
+        mEventViewModel.initViewModel();
         mBinding.setEventViewModel(mEventViewModel);
         mClovaViewModel = new ViewModelProvider(getViewModelStore(), viewModelFactory).get(ClovaViewModel.class);
         mBinding.setClovaViewModel(mClovaViewModel);
@@ -108,6 +99,7 @@ public class MonthlyEventsActivity extends BaseActivity {
     }
 
     private void updateUIwhenSignOut() {
+        mEventViewModel.deleteAllEvents();
         showToast("정상적으로 로그아웃되었습니다!");
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);

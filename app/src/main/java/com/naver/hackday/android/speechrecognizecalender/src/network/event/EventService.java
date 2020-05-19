@@ -1,12 +1,17 @@
 package com.naver.hackday.android.speechrecognizecalender.src.network.event;
 
+import android.util.Log;
+
 import com.naver.hackday.android.speechrecognizecalender.src.ApplicationClass;
 import com.naver.hackday.android.speechrecognizecalender.src.common.util.AuthorizationInterceptor;
 import com.naver.hackday.android.speechrecognizecalender.src.common.util.GoogleApi;
 import com.naver.hackday.android.speechrecognizecalender.src.common.util.SharedPreferenceManager;
 import com.naver.hackday.android.speechrecognizecalender.src.persistence.event.models.Event;
 import com.naver.hackday.android.speechrecognizecalender.src.persistence.event.models.EventListResponse;
+
+import static com.naver.hackday.android.speechrecognizecalender.src.common.util.AppConstants.ACCESS_TOKEN;
 import static com.naver.hackday.android.speechrecognizecalender.src.common.util.AppConstants.EMAIL;
+
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
@@ -18,35 +23,32 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class EventService {
     public interface EventCallback {
-        void testSuccess(EventListResponse eventListResponse);
-
-        void testSuccess(Event event);
+        void fetchSuccess(EventListResponse eventListResponse);
 
         void networkFail();
     }
 
-    private static final String CALENDAR_ID = SharedPreferenceManager.getString(ApplicationClass.getApplicationClassContext(), EMAIL);
-    private static final String GOOGLE_CALENDAR_BASE_URL = "https://www.googleapis.com/calendar/v3/calendars/" + CALENDAR_ID + "/";
+
+    private static final String GOOGLE_CALENDAR_BASE_URL = "https://www.googleapis.com/calendar/v3/calendars/";
     public static Retrofit retrofit;
 
     public static Retrofit getCalendarRetrofit() {
-        if (retrofit == null) {
-//            HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
-//            httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        final AuthorizationInterceptor authorizationInterceptor = new AuthorizationInterceptor();
+        final String calendarId = SharedPreferenceManager.getString(ApplicationClass.getApplicationClassContext(), EMAIL);
+        final String retrofitBaseUrl = GOOGLE_CALENDAR_BASE_URL + calendarId + "/";
+        authorizationInterceptor.setAccessToken(SharedPreferenceManager.getString(ApplicationClass.getApplicationClassContext(), ACCESS_TOKEN));
 
-            OkHttpClient client = new OkHttpClient.Builder()
-                    .readTimeout(5000, TimeUnit.MILLISECONDS)
-                    .connectTimeout(5000, TimeUnit.MILLISECONDS)
-                    .addNetworkInterceptor(new AuthorizationInterceptor()) // JWT 자동 헤더 전송
-//                    .addNetworkInterceptor(httpLoggingInterceptor)
-                    .build();
+        OkHttpClient client = new OkHttpClient.Builder()
+                .readTimeout(5000, TimeUnit.MILLISECONDS)
+                .connectTimeout(5000, TimeUnit.MILLISECONDS)
+                .addNetworkInterceptor(authorizationInterceptor)
+                .build();
 
-            retrofit = new Retrofit.Builder()
-                    .baseUrl(GOOGLE_CALENDAR_BASE_URL)
-                    .client(client)
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build();
-        }
+        retrofit = new Retrofit.Builder()
+                .baseUrl(retrofitBaseUrl)
+                .client(client)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
 
         return retrofit;
     }
@@ -62,10 +64,10 @@ public class EventService {
                     return;
                 }
                 if (!eventListResponse.getItems().isEmpty()) {
-                    eventCallback.testSuccess(eventListResponse);
+                    eventCallback.fetchSuccess(eventListResponse);
                     return;
                 }
-                eventCallback.testSuccess(eventListResponse);
+                eventCallback.fetchSuccess(eventListResponse);
             }
 
             @Override
@@ -75,27 +77,4 @@ public class EventService {
             }
         });
     }
-
-    public void getEventFromCalendar(String eventId, EventCallback eventCallback) {
-        final GoogleApi googleApi = getCalendarRetrofit().create(GoogleApi.class);
-        googleApi.getEvent(eventId).enqueue(new Callback<Event>() {
-            @Override
-            public void onResponse(Call<Event> call, Response<Event> response) {
-                Event eventResponse = response.body();
-                if (eventResponse == null) {
-                    eventCallback.networkFail();
-                    return;
-                }
-
-                eventCallback.testSuccess(eventResponse);
-            }
-
-            @Override
-            public void onFailure(Call<Event> call, Throwable t) {
-                t.printStackTrace();
-                eventCallback.networkFail();
-            }
-        });
-    }
-
 }

@@ -1,10 +1,10 @@
 package com.naver.hackday.android.speechrecognizecalender.src.common.util;
 
+import com.naver.hackday.android.speechrecognizecalender.src.network.event.models.EventResource;
+import com.naver.hackday.android.speechrecognizecalender.src.network.event.models.GoogleCalendarResult;
+import com.naver.hackday.android.speechrecognizecalender.src.network.event.models.RequestBody;
 import com.naver.hackday.android.speechrecognizecalender.src.network.login.models.AccessTokenRequestBody;
 import com.naver.hackday.android.speechrecognizecalender.src.network.login.models.AccessTokenResponse;
-import com.naver.hackday.android.speechrecognizecalender.src.network.event.models.*;
-import com.naver.hackday.android.speechrecognizecalender.src.common.models.DefaultResponse;
-import com.naver.hackday.android.speechrecognizecalender.src.network.event.models.EventRequestParams;
 import com.naver.hackday.android.speechrecognizecalender.src.network.login.models.RefreshTokenRequestBody;
 import com.naver.hackday.android.speechrecognizecalender.src.network.login.models.RefreshTokenResponse;
 import com.naver.hackday.android.speechrecognizecalender.src.persistence.event.models.Event;
@@ -19,7 +19,6 @@ import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
-import retrofit2.http.Headers;
 
 public interface GoogleApi {
 
@@ -53,22 +52,4 @@ public interface GoogleApi {
 
     @GET("events/{eventId}")
     Call<Event> getEvent(@Path("eventId") String eventId);
-
-    @Headers({
-            "Accept: application/json",
-            "Content-type: application/json"
-    })
-    @POST("events")
-    Call<Event> postEvent(@Body EventRequestParams eventRequestParams);
-
-    @Headers({
-            "Accept: application/json",
-            "Content-type: application/json"
-    })
-    @PUT("events/{eventId}")
-    Call<Event> updateEvent(@Path("eventId") String eventId, @Body EventRequestParams eventRequestParams);
-
-    @DELETE("events/{eventId}")
-    Call<DefaultResponse> deleteEvent(@Path("eventId") String eventId);
-
 }

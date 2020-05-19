@@ -1,5 +1,7 @@
 package com.naver.hackday.android.speechrecognizecalender.src.repository.event;
 
+import android.util.Log;
+
 import androidx.lifecycle.LiveData;
 
 import com.naver.hackday.android.speechrecognizecalender.src.persistence.event.EventDao;

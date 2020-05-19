@@ -1,36 +1,25 @@
 package com.naver.hackday.android.speechrecognizecalender.src.ui.event.viewModels;
 
-import android.app.Application;
-import android.widget.Toast;
-
 import androidx.databinding.ObservableField;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.naver.hackday.android.speechrecognizecalender.src.ApplicationClass;
 import com.naver.hackday.android.speechrecognizecalender.src.common.models.DefaultFailResponse;
 import com.naver.hackday.android.speechrecognizecalender.src.network.event.EventDetail;
+import com.naver.hackday.android.speechrecognizecalender.src.network.event.EventService;
 import com.naver.hackday.android.speechrecognizecalender.src.network.event.models.EventResource;
-
-import retrofit2.Retrofit;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.ViewModel;
-
-import com.naver.hackday.android.speechrecognizecalender.src.persistence.event.models.MonthCount;
 import com.naver.hackday.android.speechrecognizecalender.src.persistence.event.models.Event;
+import com.naver.hackday.android.speechrecognizecalender.src.persistence.event.models.EventListResponse;
+import com.naver.hackday.android.speechrecognizecalender.src.persistence.event.models.MonthCount;
+import com.naver.hackday.android.speechrecognizecalender.src.repository.event.EventRepository;
 import com.naver.hackday.android.speechrecognizecalender.src.ui.event.adapters.EventListAdapter;
 
 import java.util.Date;
 import java.util.List;
 
-import androidx.lifecycle.MutableLiveData;
-
-import com.naver.hackday.android.speechrecognizecalender.src.ApplicationClass;
-import com.naver.hackday.android.speechrecognizecalender.src.common.models.DefaultFailResponse;
-import com.naver.hackday.android.speechrecognizecalender.src.network.event.EventService;
-import com.naver.hackday.android.speechrecognizecalender.src.persistence.event.models.EventListResponse;
-import com.naver.hackday.android.speechrecognizecalender.src.repository.event.EventRepository;
-
-import java.util.concurrent.ExecutionException;
+import retrofit2.Retrofit;
 
 public class EventViewModel extends ViewModel {
     public ObservableField<String> createStartDate;
@@ -41,12 +30,12 @@ public class EventViewModel extends ViewModel {
     public MutableLiveData<EventResource> eventCreateResponse;
     public MutableLiveData<DefaultFailResponse> eventFailResponse;
     public MutableLiveData<String> eventDeleteResponse;
+    public LiveData<List<MonthCount>> mMonthData;
 
     public Retrofit retrofit;
     public String calendarID = ""; //생성 버튼 클릭 시 넘어옴
     public String eventID = ""; //delete, update용
 
-//    private RoomDbRepository mRoomDbRepository;
     public EventListAdapter mEventListAdapter;
     private EventRepository mEventRepository;
 
@@ -60,11 +49,11 @@ public class EventViewModel extends ViewModel {
     }
 
     public LiveData<List<MonthCount>> getMonthData() {
-        return mEventRepository.getMonthData();
+        mMonthData = mEventRepository.getMonthData();
+        return mMonthData;
     }
 
     //calendar api로 받아올 때 필요한 response
-    public MutableLiveData<EventListResponse> calendarResponse = new MutableLiveData<EventListResponse>();
     public MutableLiveData<DefaultFailResponse> calendarFailResponse = new MutableLiveData<DefaultFailResponse>();
 
     public EventViewModel() {
@@ -77,20 +66,26 @@ public class EventViewModel extends ViewModel {
         eventFailResponse = new MutableLiveData<DefaultFailResponse>();
         mEventRepository = new EventRepository(ApplicationClass.getApplicationClassContext());
         mEventListAdapter = new EventListAdapter(this);
+    }
+
+
+    public void initViewModel() {
         fetchAllCalendarEvents();
     }
 
-    public void eventCreateBtnClicked(){
+    public void eventCreateBtnClicked() {
         final EventDetail eventDetail = new EventDetail();
-        eventDetail.eventCreate(calendarID, createEndDate.get(), createStartDate.get(), new EventDetail.EventCallback(){
+        eventDetail.eventCreate(calendarID, createEndDate.get(), createStartDate.get(), new EventDetail.EventCallback() {
             @Override
             public void testSuccess(EventResource response) {
                 eventCreateResponse.setValue(response);
             }
+
             @Override
             public void testSuccess(String success) {
                 return;
             }
+
             @Override
             public void testFail() {
                 eventFailResponse.setValue(new DefaultFailResponse());
@@ -99,7 +94,7 @@ public class EventViewModel extends ViewModel {
 
     }
 
-    public void eventDeleteBtnClicked(){
+    public void eventDeleteBtnClicked() {
         final EventDetail eventDetail = new EventDetail();
         eventDetail.eventDelete(calendarID, eventID, new EventDetail.EventCallback() {
             @Override
@@ -141,20 +136,13 @@ public class EventViewModel extends ViewModel {
     }
 
     public void fetchAllCalendarEvents() {
-        // calendar api 를 이용해 모든 event 받아오기
         final EventService eventService = new EventService();
         eventService.getAllEventsFromCalendar(new EventService.EventCallback() {
             @Override
-            public void testSuccess(EventListResponse eventListResponse) {
-                calendarResponse.setValue(eventListResponse);
+            public void fetchSuccess(EventListResponse eventListResponse) {
                 deleteAllEvents();
                 insertAllEvents(eventListResponse.getItems());
             }
-
-            @Override
-            public void testSuccess(Event event) {
-            }
-
 
             @Override
             public void networkFail() {
