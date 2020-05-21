@@ -48,7 +48,7 @@
                 android:layout_gravity="center_horizontal"
                 android:onClick="@{() -> ClovaViewModel.clickTest()}"
                 android:padding="10dp"
-                android:text="테스"/>
+                android:text="추출 테스트"/>
 
         </LinearLayout>
 

@@ -187,7 +187,11 @@ public class TextExtractionViewModel extends ViewModel {
             try {
                 Day = Integer.parseInt(output.substring(indexDay - 2, indexDay));
             } catch (Exception e) {
-                Day = Integer.parseInt(output.substring(indexDay - 1, indexDay));
+                try {
+                    Day = Integer.parseInt(output.substring(indexDay - 1, indexDay));
+                } catch (Exception e2) {
+                    return "";
+                }
             }
             cal.set(Calendar.DATE, Day);
             return DATE_FORMAT_DAY.format(cal.getTime());
