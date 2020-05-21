@@ -100,7 +100,7 @@ public class MonthlyEventsActivity extends BaseActivity {
                 showSimpleMessageDialog("start = "+response.getStartDate() + "\nend = " + response.getEndDate());
             }
             else if(response.getMode() == UNKNOWN ){
-                showSimpleMessageDialog("인식 실패");
+                showSimpleMessageDialog("인식된 날짜정보가 없습니다");
             }
             else{
                 showSimpleMessageDialog("else" + response.getMode());
