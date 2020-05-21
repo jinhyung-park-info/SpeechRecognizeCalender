@@ -13,6 +13,8 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.naver.hackday.android.speechrecognizecalender.R;
 import com.naver.hackday.android.speechrecognizecalender.databinding.FragmentMonthlyCalenderBinding;
+import com.naver.hackday.android.speechrecognizecalender.src.persistence.event.models.Event;
+import com.naver.hackday.android.speechrecognizecalender.src.persistence.event.models.EventDate;
 import com.naver.hackday.android.speechrecognizecalender.src.ui.event.viewModels.EventViewModel;
 
 import java.text.ParseException;
@@ -76,6 +78,8 @@ public class MonthlyCalenderFragment extends Fragment {
 
         /* RecyclerView */
         mEventViewModel.getMonthlyEvents(from, to).observe(getViewLifecycleOwner(), eventList -> {
+//            eventList.add(new Event("eventId", "kind",  "status", "summary", "description", "location",
+//                            new Date(), new Date(), new EventDate(), new EventDate()));
             mEventViewModel.mEventListAdapter.submitList(eventList);
         });
 

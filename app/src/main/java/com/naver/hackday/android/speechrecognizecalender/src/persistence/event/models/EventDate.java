@@ -24,6 +24,10 @@ public class EventDate{
         this.dateTime = dateTime;
     }
 
+    public EventDate() {
+
+    }
+
     public Date getDate() {
         return date;
     }

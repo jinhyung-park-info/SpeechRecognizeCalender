@@ -44,6 +44,7 @@ public final class AppConstants {
 
     // 6. 날짜 형식
     public static final SimpleDateFormat DATE_FORMAT_DAY = new SimpleDateFormat("yyyy-MM-dd", Locale.KOREA);
+    public static final SimpleDateFormat TIME_FORMAT = new SimpleDateFormat("HH:mm", Locale.KOREA);
     public static final SimpleDateFormat DATE_FORMAT_SECOND = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.KOREA);
     public static final SimpleDateFormat DATE_FORMAT_KR = new SimpleDateFormat("yyyy년 MM월 dd일", Locale.KOREA);
     public static final SimpleDateFormat DATE_FORMAT_EN = new SimpleDateFormat("dd MMM yyyy", Locale.ENGLISH);
@@ -72,4 +73,10 @@ public final class AppConstants {
 
         return retrofit;
     }
+
+    // 8. 일정 형식
+    public static final int ONE_DAY = 1; //날짜만(yyyy-MM-dd 00:00:00)
+    public static final int DAY_TO_DAY = 2;
+    public static final int UNKNOWN = 3;
+
 }

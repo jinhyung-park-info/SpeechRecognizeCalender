@@ -3,10 +3,9 @@ package com.naver.hackday.android.speechrecognizecalender.src.ui.event;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-
+import android.util.Log;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
-
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -15,20 +14,27 @@ import com.naver.hackday.android.speechrecognizecalender.R;
 import com.naver.hackday.android.speechrecognizecalender.databinding.ActivityMontlyCalanderBinding;
 import com.naver.hackday.android.speechrecognizecalender.src.BaseActivity;
 import com.naver.hackday.android.speechrecognizecalender.src.network.clova.ClovaViewModel;
+import com.naver.hackday.android.speechrecognizecalender.src.network.clova.TextExtractionViewModel;
 import com.naver.hackday.android.speechrecognizecalender.src.ui.event.adapters.MonthlyFragmentAdapter;
 import com.naver.hackday.android.speechrecognizecalender.src.ui.event.fragments.MonthlyCalenderFragment;
 import com.naver.hackday.android.speechrecognizecalender.src.ui.event.viewModels.EventViewModel;
 import com.naver.hackday.android.speechrecognizecalender.src.ui.login.MainActivity;
 
+
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.naver.hackday.android.speechrecognizecalender.src.common.util.AppConstants.DAY_TO_DAY;
+import static com.naver.hackday.android.speechrecognizecalender.src.common.util.AppConstants.ONE_DAY;
+import static com.naver.hackday.android.speechrecognizecalender.src.common.util.AppConstants.UNKNOWN;
 import static com.naver.hackday.android.speechrecognizecalender.src.common.util.Util.permissionCheck;
 
 public class MonthlyEventsActivity extends BaseActivity {
 
     private EventViewModel mEventViewModel;
     private ClovaViewModel mClovaViewModel;
+    private TextExtractionViewModel mTextExtractionViewModel;
+
     private ActivityMontlyCalanderBinding mBinding;
     private MonthlyFragmentAdapter mMonthlyFragmentAdapter;
     private List<String> mTabTitleArray = new ArrayList<>();
@@ -48,6 +54,8 @@ public class MonthlyEventsActivity extends BaseActivity {
         mBinding.setEventViewModel(mEventViewModel);
         mClovaViewModel = new ViewModelProvider(getViewModelStore(), viewModelFactory).get(ClovaViewModel.class);
         mBinding.setClovaViewModel(mClovaViewModel);
+        mTextExtractionViewModel = new ViewModelProvider(getViewModelStore(), viewModelFactory).get(TextExtractionViewModel.class);
+        mBinding.setTextExtractionViewModel(mTextExtractionViewModel);
 
         /* ViewPager */
         mMonthlyFragmentAdapter = new MonthlyFragmentAdapter(getSupportFragmentManager(), getLifecycle());
@@ -78,6 +86,26 @@ public class MonthlyEventsActivity extends BaseActivity {
 
         });
 
+        mClovaViewModel.mRecognizedString.observe(this, response -> {
+            mTextExtractionViewModel.mSentence.setValue(response);
+            mTextExtractionViewModel.doExtraction();
+        });
+
+        mTextExtractionViewModel.mResult.observe(this, response -> {
+            Log.d("결과 mEndDate", response.toString());
+            if(response.getMode() == ONE_DAY){
+                showSimpleMessageDialog(response.getDate());
+            }
+            else if(response.getMode() == DAY_TO_DAY){
+                showSimpleMessageDialog("start = "+response.getStartDate() + "\nend = " + response.getEndDate());
+            }
+            else if(response.getMode() == UNKNOWN ){
+                showSimpleMessageDialog("인식 실패");
+            }
+            else{
+                showSimpleMessageDialog("else" + response.getMode());
+            }
+        });
     }
 
     @Override

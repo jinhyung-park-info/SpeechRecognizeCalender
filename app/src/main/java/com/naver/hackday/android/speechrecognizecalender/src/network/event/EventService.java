@@ -1,5 +1,4 @@
 package com.naver.hackday.android.speechrecognizecalender.src.network.event;
-
 import android.util.Log;
 
 import com.naver.hackday.android.speechrecognizecalender.src.ApplicationClass;
@@ -58,6 +57,7 @@ public class EventService {
         googleApi.getAllEvents().enqueue(new Callback<EventListResponse>() {
             @Override
             public void onResponse(Call<EventListResponse> call, Response<EventListResponse> response) {
+                Log.d("에러", response.toString());
                 EventListResponse eventListResponse = response.body();
                 if (eventListResponse == null) {
                     eventCallback.networkFail();

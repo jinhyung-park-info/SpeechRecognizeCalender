@@ -13,20 +13,17 @@
             name="ClovaViewModel"
             type="com.naver.hackday.android.speechrecognizecalender.src.network.clova.ClovaViewModel" />
 
+        <variable
+            name="TextExtractionViewModel"
+            type="com.naver.hackday.android.speechrecognizecalender.src.network.clova.TextExtractionViewModel" />
+
+
     </data>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-
-<!--        <Button-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_gravity="center_horizontal"-->
-<!--            android:onClick="@{() -> EventViewModel.clickedInsertEventList()}"-->
-<!--            android:padding="10dp"-->
-<!--            android:text="일정추가 (Dummy)" />-->
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -45,6 +42,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@{ClovaViewModel.mRecognizedResult}" />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:onClick="@{() -> ClovaViewModel.clickTest()}"
+                android:padding="10dp"
+                android:text="추출 테스트"/>
 
         </LinearLayout>
 
@@ -63,14 +67,3 @@
     </LinearLayout>
 
 </layout>
-
-    <!--    <TextView-->
-    <!--        android:id="@+id/activity_monthly_calendar_tv_test"-->
-    <!--        android:layout_width="wrap_content"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:text="TextView"-->
-    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
-    <!--        app:layout_constraintEnd_toEndOf="parent"-->
-    <!--        app:layout_constraintStart_toStartOf="parent"-->
-    <!--        app:layout_constraintTop_toTopOf="parent" />-->
-    <!--</androidx.constraintlayout.widget.ConstraintLayout>-->

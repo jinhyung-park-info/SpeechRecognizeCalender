@@ -32,6 +32,9 @@ public class EventViewModel extends ViewModel {
     public MutableLiveData<String> eventDeleteResponse;
     public LiveData<List<MonthCount>> mMonthData;
 
+    public MutableLiveData<String> eventDetail;
+
+
     public Retrofit retrofit;
     public String calendarID = ""; //생성 버튼 클릭 시 넘어옴
     public String eventID = ""; //delete, update용
@@ -64,6 +67,9 @@ public class EventViewModel extends ViewModel {
         eventCreateResponse = new MutableLiveData<EventResource>();
         eventDeleteResponse = new MutableLiveData<String>();
         eventFailResponse = new MutableLiveData<DefaultFailResponse>();
+
+        eventDetail = new MutableLiveData<String>();
+
         mEventRepository = new EventRepository(ApplicationClass.getApplicationClassContext());
         mEventListAdapter = new EventListAdapter(this);
     }
@@ -170,4 +176,5 @@ public class EventViewModel extends ViewModel {
     public void deleteAllEvents() {
         mEventRepository.deleteAll();
     }
+
 }

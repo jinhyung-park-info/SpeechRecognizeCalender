@@ -1,6 +1,7 @@
 package com.naver.hackday.android.speechrecognizecalender.src.ui.login.viewModels;
 
 import android.os.Build;
+import android.util.Log;
 
 import androidx.annotation.RequiresApi;
 import androidx.lifecycle.ViewModel;
@@ -38,6 +39,7 @@ public class LogInViewModel extends ViewModel {
                 }
             });
         } catch (Exception e) {
+            Log.d("에러", e.toString());
             e.printStackTrace();
             authListener.onFailureGetAccessToken();
         }

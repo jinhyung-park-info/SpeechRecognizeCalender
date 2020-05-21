@@ -74,6 +74,7 @@ public class EventListAdapter extends ListAdapter<Event, EventListAdapter.VisaLi
                 @Override
                 public void itemClick(String calenderId) {
                     Log.d("아이템", "클릭 " + calenderId);
+                    mEventViewModel.eventDetail.setValue(calenderId);
                 }
             }));
         }

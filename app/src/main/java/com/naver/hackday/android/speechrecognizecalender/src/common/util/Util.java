@@ -3,6 +3,7 @@ package com.naver.hackday.android.speechrecognizecalender.src.common.util;
 import android.Manifest;
 import android.app.Activity;
 import android.content.pm.PackageManager;
+import android.util.Log;
 
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -15,10 +16,11 @@ public class Util {
     }
 
     public static boolean isEmulator() throws Exception {
-        boolean goldfish = getSystemProperty("ro.hardware").contains("goldfish");
-        boolean emu = getSystemProperty("ro.kernel.qemu").length() > 0;
-        boolean sdk = getSystemProperty("ro.product.model").equals("sdk");
-        return goldfish || emu || sdk;
+        boolean goldfish = getSystemProperty("ro.hardware").contains("ranchu");
+//        boolean emu = getSystemProperty("ro.kernel.qemu").length() > 0;
+        boolean sdk = getSystemProperty("ro.product.model").contains("SDK");
+        Log.d("isEmulator", getSystemProperty("ro.hardware") + " / " + getSystemProperty("ro.kernel.qemu")+ " / " + getSystemProperty("ro.product.model"));
+        return goldfish  || sdk;
     }
 
     public static void permissionCheck(Activity activity) {
