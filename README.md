@@ -3,7 +3,7 @@
 **By <a href="http://github.com/jinhyung426/" target="_blank">Jinhyung Park</a>, Youngjin Moon, Sujin Lee, Jiwon Lee from 2020 NAVER CAMPUS HACKDAY**
 
 <p align="center">
-  <img width="1000" height="330" src="https://github.com/jinhyung426/SpeechRecognizeCalender/blob/feature/keystore_modify/app/utils/teaser1.png">
+  <img width="1000" height="500" src="https://github.com/jinhyung426/SpeechRecognizeCalender/blob/feature/keystore_modify/app/utils/teaser1.png">
 </p>
 
 <p align="center">
@@ -14,11 +14,11 @@
 
 **2020 NAVER CAMPUS HACKDAY (2020.05.05 - 2020.05.20)**
 
-Google Calendar와 연동하여 사용자의 음성으로 일정을 생성, 변경, 삭제하는 어플을 MVVM Architecture을 이용하여 개발함.<br/>
-Google REST API를 이용하여 Oauth를 통해 AccessToken을 받아오는 Google Login 기능을 구현했으며,<br/>
-입력 받은 음성에 따라 일정을 생성할 수 있도록 LSTM Model을 설계하고 학습 DB를 구축하는 역할을 맡음.<br/>
-안드로이드에서 지원하는 Tensorflow Lite 버전 관련 문제로 인해 머신러닝을 이용하여 음성을 인식하는 방법 대신, <br/>
-Regex(정규식)을 이용하여 사용자로부터 입력받은 값을 처리하여 일정을 생성/변경/삭제 기능을 구현하는 것으로 구현함.
+ - Google Calendar와 연동하여 사용자의 음성으로 일정을 생성, 변경, 삭제하는 어플을 MVVM Architecture을 이용하여 개발<br/>
+ - Google REST API를 이용하여 Oauth를 통해 AccessToken을 받아오는 Google Login 기능을 구현했으며,<br/>
+ - 입력 받은 음성에 따라 일정을 생성할 수 있도록 LSTM Model을 설계하고 학습 DB를 구축하는 역할을 맡음.<br/>
+ - 안드로이드에서 지원하는 Tensorflow Lite 버전 관련 문제로 인해 머신러닝을 이용하여 음성을 인식하는 방법 대신, <br/>
+ - Regex(정규식)을 이용하여 사용자로부터 입력받은 값을 처리하여 일정을 생성/변경/삭제 기능을 구현하는 것으로 구현함.
 <br/>
 <br/>
 ### Naming Convention
